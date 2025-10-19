@@ -53,7 +53,7 @@ OpenMemory delivers **2-3× faster contextual recall** and **6-10× lower cost**
 - Optional: Ollama / OpenAI / Gemini embeddings
 
 ```bash
-git clone https://github.com/nullure/openmemory.git
+git clone https://github.com/caviraoss/openmemory.git
 cp .env.example .env
 cd openmemory/backend
 npm install
