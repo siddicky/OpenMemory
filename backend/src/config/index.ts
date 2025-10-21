@@ -17,5 +17,9 @@ export const env = {
     local_model_path: process.env.LOCAL_MODEL_PATH || process.env.OM_LOCAL_MODEL_PATH || '',
     vec_dim: Number(process.env.OM_VEC_DIM) || 768,
     min_score: Number(process.env.OM_MIN_SCORE) || 0.3,
-    decay_lambda: Number(process.env.OM_DECAY_LAMBDA) || 0.02
+    decay_lambda: Number(process.env.OM_DECAY_LAMBDA) || 0.02,
+    mode: (process.env.OM_MODE || 'standard').toLowerCase(),
+    lg_namespace: process.env.OM_LG_NAMESPACE || 'default',
+    lg_max_context: Number(process.env.OM_LG_MAX_CONTEXT) || 50,
+    lg_reflective: (process.env.OM_LG_REFLECTIVE ?? 'true').toLowerCase() !== 'false'
 }

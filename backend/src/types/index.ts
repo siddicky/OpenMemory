@@ -23,3 +23,36 @@ export type ingest_url_req = {
         largeDocThreshold?: number
     }
 }
+
+export type lgm_store_req = {
+    node: string
+    content: string
+    tags?: string[]
+    metadata?: Record<string, unknown>
+    namespace?: string
+    graph_id?: string
+    reflective?: boolean
+}
+
+export type lgm_retrieve_req = {
+    node: string
+    query?: string
+    namespace?: string
+    graph_id?: string
+    limit?: number
+    include_metadata?: boolean
+}
+
+export type lgm_context_req = {
+    graph_id?: string
+    namespace?: string
+    limit?: number
+}
+
+export type lgm_reflection_req = {
+    node?: string
+    graph_id?: string
+    namespace?: string
+    content?: string
+    context_ids?: string[]
+}

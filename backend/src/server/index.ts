@@ -13,7 +13,13 @@ import {
 } from '../hsg'
 import { getEmbeddingInfo } from '../embedding'
 import { ingestDocument, ingestURL } from '../ingestion'
-import type { add_req, q_req, ingest_req, ingest_url_req } from '../types'
+import { registerLangGraphEndpoints } from '../langgraph'
+import type {
+    add_req,
+    q_req,
+    ingest_req,
+    ingest_url_req
+} from '../types'
 
 const app = server()
 
@@ -212,6 +218,10 @@ app.delete('/memory/:id', async (req: any, res: any) => {
         res.status(500).json({ err: 'internal' })
     }
 })
+if (env.mode === 'langgraph') {
+    console.log('[LGM] LangGraph integration mode enabled')
+    registerLangGraphEndpoints(app)
+}
 const DECAY_INTERVAL = 24 * 60 * 60 * 1000
 const PRUNE_INTERVAL = 7 * 24 * 60 * 60 * 1000
 setInterval(async () => {
