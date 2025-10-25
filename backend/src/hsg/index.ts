@@ -327,50 +327,10 @@ export async function pruneWeakWaypoints(): Promise<number> {
 }
 import { embedForSector, embedMultiSector, cosineSimilarity, bufferToVector, vectorToBuffer, EmbeddingResult } from '../embedding'
 import { chunkText } from '../utils/chunking'
-import type { MemoryFilters } from '../types'
-
-/**
- * Helper function to check if a memory passes all filters
- */
-function passesFilters(memory: HSGMemory, filters?: MemoryFilters): boolean {
-    // Salience filtering
-    if (filters?.min_score !== undefined && memory.salience < filters.min_score) {
-        return false
-    }
-
-    // Tag filtering
-    if (filters?.tags && filters.tags.length > 0) {
-        try {
-            const memoryTags = memory.tags ? JSON.parse(memory.tags) : []
-            const hasMatchingTag = filters.tags.some(tag => memoryTags.includes(tag))
-            if (!hasMatchingTag) return false
-        } catch {
-            // If JSON parsing fails, memory doesn't pass filter
-            return false
-        }
-    }
-
-    // Metadata filtering
-    if (filters?.metadata && Object.keys(filters.metadata).length > 0) {
-        try {
-            const memoryMeta = memory.meta ? JSON.parse(memory.meta) : {}
-            const allMatch = Object.entries(filters.metadata).every(
-                ([key, value]) => memoryMeta[key] === value
-            )
-            if (!allMatch) return false
-        } catch {
-            // If JSON parsing fails, memory doesn't pass filter
-            return false
-        }
-    }
-
-    return true
-}
-
 export async function hsgQuery(
     queryText: string,
     k: number = 10,
-    filters?: MemoryFilters
+    filters?: { sectors?: string[], minSalience?: number }
 ): Promise<HSGQueryResult[]> {
     const queryClassification = classifyContent(queryText)
     const candidateSectors = [queryClassification.primary, ...queryClassification.additional]
@@ -411,10 +371,7 @@ export async function hsgQuery(
     for (const memoryId of Array.from(allMemoryIds)) {
         const memory = await q.get_mem.get(memoryId)
         if (!memory) continue
-
-        // Apply all filters (salience, tags, metadata)
-        if (!passesFilters(memory, filters)) continue
-
+        if (filters?.minSalience && memory.salience < filters.minSalience) continue
         let bestSimilarity = 0
         let bestSector = memory.primary_sector
         for (const [sector, results] of Object.entries(sectorResults)) {

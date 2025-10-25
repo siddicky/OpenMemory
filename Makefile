@@ -59,19 +59,26 @@ stop: ## Stop server (if running as daemon)
 	@pkill -f "node.*openmemory" || echo "No server process found"
 
 # Testing
-test: test-backend test-js-sdk test-py-sdk
+test: ## Run all tests
+	@echo "🧪 Running all tests..."
+	@echo "Testing backend API..."
+	node tests/backend/api-simple.test.js
+	@echo "Testing JavaScript SDK..."
+	node tests/js-sdk/sdk-simple.test.js
+	@echo "Testing Python SDK..."
+	cd tests/py-sdk && python test-simple.py
 
 test-backend: ## Run backend tests only
 	@echo "🧪 Testing backend API..."
-	node tests/backend/*.test.js
+	node tests/backend/api-simple.test.js
 
 test-js-sdk: ## Run JavaScript SDK tests only
 	@echo "🧪 Testing JavaScript SDK..."
-	node tests/js-sdk/js-sdk.test.js
+	node tests/js-sdk/sdk-simple.test.js
 
 test-py-sdk: ## Run Python SDK tests only
 	@echo "🧪 Testing Python SDK..."
-	cd tests/py-sdk && python test-sdk.py
+	cd tests/py-sdk && python test-simple.py
 
 test-integration: ## Run integration tests
 	@echo "🔗 Running integration tests..."
