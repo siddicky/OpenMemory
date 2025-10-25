@@ -119,10 +119,11 @@ app.post('/memory/query', async (req: any, res: any) => {
     const b = req.body as q_req
     const k = b.k || 8
     try {
-        const filters = {
-            sectors: b.filters?.sector ? [b.filters.sector] : undefined,
-            minSalience: b.filters?.min_score
-        }
+        // Convert sector string to sectors array for backward compatibility
+        const filters = b.filters ? {
+            ...b.filters,
+            sectors: b.filters.sector ? [b.filters.sector] : undefined
+        } : undefined
         const matches = await hsgQuery(b.query, k, filters)
         res.json({
             query: b.query,
