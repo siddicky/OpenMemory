@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '../config/config.service';
 import { embedForSector, embedMultiSector, getEmbeddingInfo, EmbeddingResult } from '../../embedding';
 
 @Injectable()
 export class EmbeddingService {
-    constructor(private configService: ConfigService) {}
+    constructor(
+        @Inject(ConfigService) private readonly configService: ConfigService
+    ) {}
 
     async embedForSector(text: string, sector: string): Promise<number[]> {
         return embedForSector(text, sector);

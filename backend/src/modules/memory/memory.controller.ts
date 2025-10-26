@@ -8,7 +8,7 @@ import {
     Query,
     HttpException,
     HttpStatus,
-    UseGuards
+    Inject
 } from '@nestjs/common';
 import { HsgService } from '../hsg/hsg.service';
 import { EmbeddingService } from '../embedding/embedding.service';
@@ -30,12 +30,12 @@ import type {
 @Controller()
 export class MemoryController {
     constructor(
-        private readonly hsgService: HsgService,
-        private readonly embeddingService: EmbeddingService,
-        private readonly ingestionService: IngestionService,
-        private readonly langgraphService: LanggraphService,
-        private readonly databaseService: DatabaseService,
-        private readonly configService: ConfigService,
+        @Inject(HsgService) private readonly hsgService: HsgService,
+        @Inject(EmbeddingService) private readonly embeddingService: EmbeddingService,
+        @Inject(IngestionService) private readonly ingestionService: IngestionService,
+        @Inject(LanggraphService) private readonly langgraphService: LanggraphService,
+        @Inject(DatabaseService) private readonly databaseService: DatabaseService,
+        @Inject(ConfigService) private readonly configService: ConfigService,
     ) {}
 
     @Get('health')
