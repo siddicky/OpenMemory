@@ -8,7 +8,7 @@ RUN apk add --no-cache python3 make g++
 
 # Copy package files
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy source code
 COPY src/ ./src/
