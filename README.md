@@ -245,6 +245,10 @@ make build
 make test
 ```
 
+### Our Contributers:
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
 ---
 
 ## 10. License
@@ -253,6 +257,10 @@ MIT License.
 Copyright (c) 2025 OpenMemory.
 
 ---
+
+## 11. Check out our other projects
+# PageLM: PageLM is a community-driven version of NotebookLM & an education platform that transforms study materials into interactive resources like quizzes, flashcards, notes, and podcasts.
+ Link: https://github.com/CaviraOSS/PageLM
 
 ### Positioning Statement
 
